@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <receiver
             android:name=".RecorderWidget"
             android:exported="false">
@@ -30,6 +31,13 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recorder_widget_info" />
         </receiver>
+
+        <service
+            android:name=".service.WidgetService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <receiver android:name=".WidgetReceiver" />
 
         <activity
             android:name=".RecorderActivity"
