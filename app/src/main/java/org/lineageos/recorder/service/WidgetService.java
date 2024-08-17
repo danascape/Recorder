@@ -16,6 +16,7 @@ import org.lineageos.recorder.R;
 
 public class WidgetService extends Service {
     private static final String CHANNEL_ID = "ForegroundServiceChannel";
+    public static boolean isServiceRunning = false;
 
     @Override
     public void onCreate() {
