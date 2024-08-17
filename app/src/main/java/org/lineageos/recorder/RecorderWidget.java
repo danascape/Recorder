@@ -23,7 +23,7 @@ public class RecorderWidget extends AppWidgetProvider {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        views.setOnClickPendingIntent(R.id.widget_icon, pendingIntent);
+        views.setOnClickPendingIntent(R.id.sound_fab, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class GoodQualityRecorder implements SoundRecording {
-    private static final String FILE_NAME_EXTENSION_AAC = "m4a";
-    private static final String FILE_MIME_TYPE_AAC = "audio/mp4a-latm";
+    private static final String FILE_NAME_EXTENSION_AAC = "mpeg";
+    private static final String FILE_MIME_TYPE_AAC = "audio/mpeg";
 
     private MediaRecorder mRecorder = null;
     private boolean mIsPaused = false;
