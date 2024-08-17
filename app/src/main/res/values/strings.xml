@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2017-2021 The LineageOS Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (c) 2017-2021 The LineageOS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -130,4 +129,7 @@
     <string name="delete_selected_title">Delete selected</string>
     <!-- Delete all message -->
     <string name="delete_selected_message">Are you sure you want to delete the selected recordings? This cannot be undone</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>
