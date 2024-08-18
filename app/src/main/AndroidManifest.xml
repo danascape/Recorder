@@ -24,7 +24,10 @@
             android:name=".RecorderWidget"
             android:exported="false">
             <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
             </intent-filter>
 
             <meta-data
@@ -36,6 +39,11 @@
             android:name=".service.WidgetService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
+
+        <service
+            android:name=".RecorderWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver android:name=".WidgetReceiver" />
 
