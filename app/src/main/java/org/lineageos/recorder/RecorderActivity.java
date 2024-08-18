@@ -17,12 +17,14 @@ package org.lineageos.recorder;
 
 import static android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +37,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -152,6 +155,10 @@ public class RecorderActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_main);
+
+        boolean hasCaptureAudioOutputPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAPTURE_AUDIO_OUTPUT) == PackageManager.PERMISSION_GRANTED;
+
+        Log.e("saalim", "hasCaptureAudioOutputPermission: " + hasCaptureAudioOutputPermission);
 
         ConstraintLayout mainView = findViewById(R.id.main_root);
         mSoundFab = findViewById(R.id.sound_fab);

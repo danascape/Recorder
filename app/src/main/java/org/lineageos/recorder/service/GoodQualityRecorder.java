@@ -17,8 +17,11 @@ package org.lineageos.recorder.service;
 
 import android.Manifest;
 import android.content.Context;
+import android.media.AudioDeviceInfo;
+import android.media.AudioManager;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresPermission;
 
@@ -32,21 +35,36 @@ public class GoodQualityRecorder implements SoundRecording {
     private MediaRecorder mRecorder = null;
     private boolean mIsPaused = false;
     private final Context mContext;
+    private AudioManager mAudioManager;
 
     public GoodQualityRecorder(Context context) {
         this.mContext = context;
+        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Override
-    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
+//    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
+    @RequiresPermission(Manifest.permission.CAPTURE_AUDIO_OUTPUT)
     public void startRecording(Path path) throws IOException {
         if (Build.VERSION.SDK_INT >= 31) {
             mRecorder = new MediaRecorder(mContext);
         } else {
             mRecorder = new MediaRecorder();
         }
+
+        AudioDeviceInfo[] deviceList = mAudioManager.getDevices(AudioManager.GET_DEVICES_INPUTS);
+//        AudioDeviceInfo routedDevice = mRecorder.getRoutedDevice();
+        for (int i = 0; i < deviceList.length; i++) {
+            Log.e("saalim", deviceList[i].toString());
+//            Log.e("saalim", routedDevice.toString());
+        }
+
+
+//        AudioDeviceInfo routedDevice = mRecorder.getRoutedDevice();
+
         mRecorder.setOutputFile(path.toFile());
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+//        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
