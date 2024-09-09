@@ -16,6 +16,7 @@
 package org.lineageos.recorder.utils;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -24,6 +25,7 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -57,6 +59,7 @@ public final class PermissionManager {
 
     public boolean requestEssentialPermissions() {
         final List<String> missingPermissions = new ArrayList<>();
+
         if (!hasRecordAudioPermission()) {
             missingPermissions.add(RECORD_AUDIO);
         }
@@ -85,11 +88,16 @@ public final class PermissionManager {
 
     public boolean hasEssentialPermissions() {
         if (Build.VERSION.SDK_INT >= 33) {
-            return hasRecordAudioPermission() && hasPhoneReadStatusPermission() &&
+            return hasRecordAudioPermission() && hasPhoneReadStatusPermission() && hasCallAudioPermission() &&
                     notificationManager.areNotificationsEnabled();
         } else {
             return hasRecordAudioPermission() && hasPhoneReadStatusPermission();
         }
+    }
+
+    public boolean hasCallAudioPermission() {
+        return activity.checkSelfPermission(CAPTURE_AUDIO_OUTPUT)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     public boolean hasRecordAudioPermission() {
@@ -110,7 +118,8 @@ public final class PermissionManager {
     public void onEssentialPermissionsDenied() {
         if (activity.shouldShowRequestPermissionRationale(POST_NOTIFICATIONS) ||
                 activity.shouldShowRequestPermissionRationale(READ_PHONE_STATE) ||
-                activity.shouldShowRequestPermissionRationale(RECORD_AUDIO)) {
+                activity.shouldShowRequestPermissionRationale(RECORD_AUDIO) ||
+                activity.shouldShowRequestPermissionRationale(CAPTURE_AUDIO_OUTPUT)) {
             // Explain the user why the denied permission is needed
             int error = 0;
 

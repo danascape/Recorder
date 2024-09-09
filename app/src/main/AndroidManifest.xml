@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2017-2022 The LineageOS Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (c) 2017-2022 The LineageOS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -26,7 +25,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- System Protected Permissions -->
-    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
 
     <!-- This is needed for aosp build env -->
     <uses-sdk tools:ignore="GradleOverrides" />
@@ -86,5 +85,25 @@
                 <action android:name="com.libremobileos.recorder.service.RESUME" />
             </intent-filter>
         </service>
+
+        <!-- Widget -->
+        <receiver
+            android:name=".RecorderWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recorder_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".service.WidgetService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <receiver android:name=".WidgetReceiver" />
     </application>
 </manifest>

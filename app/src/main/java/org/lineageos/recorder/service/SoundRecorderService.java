@@ -52,8 +52,8 @@ import org.lineageos.recorder.RecorderActivity;
 import org.lineageos.recorder.status.UiStatus;
 import org.lineageos.recorder.task.AddRecordingToContentProviderTask;
 import org.lineageos.recorder.task.TaskExecutor;
-import org.lineageos.recorder.utils.RecordIntentHelper;
 import org.lineageos.recorder.utils.PreferencesManager;
+import org.lineageos.recorder.utils.RecordIntentHelper;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -200,8 +200,10 @@ public class SoundRecorderService extends Service {
         }
 
         if (isUserOnCall(this)) {
+            Log.e("saalim", "user on call");
             mRecorder = new CallRecorder(this);
         } else {
+            Log.e("saalim", "user not on call");
             mRecorder = mPreferencesManager.getRecordInHighQuality()
                     ? new HighQualityRecorder()
                     : new GoodQualityRecorder(this);
