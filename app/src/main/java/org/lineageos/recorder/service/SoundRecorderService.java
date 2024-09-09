@@ -35,6 +35,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -180,6 +181,17 @@ public class SoundRecorderService extends Service {
         }
     }
 
+    public boolean isUserOnCall(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager != null) {
+            int state = telephonyManager.getCallState();
+            if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean startRecording(String fileName) {
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -187,9 +199,13 @@ public class SoundRecorderService extends Service {
             return false;
         }
 
-        mRecorder = mPreferencesManager.getRecordInHighQuality()
-                ? new HighQualityRecorder()
-                : new GoodQualityRecorder(this);
+        if (isUserOnCall(this)) {
+            mRecorder = new CallRecorder(this);
+        } else {
+            mRecorder = mPreferencesManager.getRecordInHighQuality()
+                    ? new HighQualityRecorder()
+                    : new GoodQualityRecorder(this);
+        }
 
         final Optional<Path> optPath = createNewAudioFile(fileName, mRecorder.getFileExtension());
         if (optPath.isPresent()) {
